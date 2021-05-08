@@ -8,7 +8,6 @@ namespace SteamMarketAgent
     {
         public string SkinModel { get; set; }
         public string Price { get; set; }
-        public string Link { get; set; }
 
     }
 }
