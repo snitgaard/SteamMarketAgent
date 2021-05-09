@@ -13,13 +13,14 @@ namespace SteamMarketAgent
     {
         static void Main(String[] args)
         {
-            GetHtmlAsyns();
+            GetHtmlAsync();
             Console.Read();
         }
 
-        private static async void GetHtmlAsyns()
+        private static async void GetHtmlAsync()
         {
-            var url = "https://steamcommunity.com/market/listings/730/Desert%20Eagle%20%7C%20Printstream%20%28Minimal%20Wear%29";
+            CurrencyConverter currencyConverter = new CurrencyConverter();
+            var url = "https://steamcommunity.com/market/listings/730/Desert%20Eagle%20%7C%20Printstream%20%28Minimal%20Wear%29?l=uk&cc=uk";
 
             var httpClient = new HttpClient();
             var html =  await httpClient.GetStringAsync(url);
@@ -52,7 +53,7 @@ namespace SteamMarketAgent
                 };
                 skins.Add(skin);
                 Console.OutputEncoding = System.Text.Encoding.UTF8;
-                System.Console.Out.WriteLine(skin.SkinModel + "-" + skin.Price);
+                System.Console.Out.WriteLine(skin.SkinModel + "-" + currencyConverter.currencyConversion(skin.Price));
             }
         }
     }
