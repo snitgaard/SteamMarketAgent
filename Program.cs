@@ -35,22 +35,25 @@ namespace SteamMarketAgent
                 .Where(node => node.GetAttributeValue("id", "")
                     .Contains("listing")).ToList();
 
+            var skins = new List<Skin>();
+
             //var productList = producthtml[0].Descendants()
             foreach (var productListItem in productListItems)
             {
-                Console.WriteLine(productListItem.GetAttributeValue("id", ""));
-
-                Console.WriteLine(productListItem
-                    .Descendants("span").FirstOrDefault(node => node.GetAttributeValue("class", "")
-                        .Equals("market_listing_item_name")).InnerHtml);
-
-                Console.WriteLine(productListItem
-                    .Descendants("span").FirstOrDefault(node => node.GetAttributeValue("class", "")
-                    .Equals("market_listing_price market_listing_price_with_fee")).InnerHtml);
-                Console.WriteLine();
+                var skin = new Skin
+                {
+                    Id = productListItem.GetAttributeValue("id", ""),
+                    SkinModel = productListItem
+                        .Descendants("span").FirstOrDefault(node => node.GetAttributeValue("class", "")
+                            .Equals("market_listing_item_name")).InnerHtml,
+                    Price = productListItem
+                        .Descendants("span").FirstOrDefault(node => node.GetAttributeValue("class", "")
+                            .Equals("market_listing_price market_listing_price_with_fee")).InnerHtml,
+                };
+                skins.Add(skin);
+                Console.OutputEncoding = System.Text.Encoding.UTF8;
+                System.Console.Out.WriteLine(skin.SkinModel + "-" + skin.Price);
             }
-
-            Console.WriteLine();
         }
     }
 }
