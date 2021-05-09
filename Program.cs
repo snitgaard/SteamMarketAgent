@@ -11,32 +11,46 @@ namespace SteamMarketAgent
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(String[] args)
         {
-            startCrawlerAsync();
-            Console.ReadLine();
+            GetHtmlAsyns();
+            Console.Read();
         }
 
-        private static async Task startCrawlerAsync()
+        private static async void GetHtmlAsyns()
         {
-            var skins = new List<Skin>();
-            var url =
-                "https://steamcommunity.com/market/listings/730/Desert%20Eagle%20%7C%20Printstream%20%28Field-Tested%29";
+            var url = "https://steamcommunity.com/market/listings/730/Desert%20Eagle%20%7C%20Printstream%20%28Minimal%20Wear%29";
+
             var httpClient = new HttpClient();
-            var html = await httpClient.GetStringAsync(url);
+            var html =  await httpClient.GetStringAsync(url);
+
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
-            var divs = htmlDocument.DocumentNode.Descendants("span").Where(node => node.GetAttributeValue("class", "")
-                .Equals("market_table_value")).ToList();
 
-            foreach (var div in divs)
+            var producthtml = htmlDocument.DocumentNode.Descendants("div")
+                .Where(node => node.GetAttributeValue("id","")
+                    .Equals("searchResultsRows")).ToList();
+
+            var productListItems = producthtml[0].Descendants("div")
+                .Where(node => node.GetAttributeValue("id", "")
+                    .Contains("listing")).ToList();
+
+            //var productList = producthtml[0].Descendants()
+            foreach (var productListItem in productListItems)
             {
-                var skin = new Skin
-                {
-                    Price = div.Descendants("span").FirstOrDefault().InnerText,
-                };
-                skins.Add(skin);
+                Console.WriteLine(productListItem.GetAttributeValue("id", ""));
+
+                Console.WriteLine(productListItem
+                    .Descendants("span").FirstOrDefault(node => node.GetAttributeValue("class", "")
+                        .Equals("market_listing_item_name")).InnerHtml);
+
+                Console.WriteLine(productListItem
+                    .Descendants("span").FirstOrDefault(node => node.GetAttributeValue("class", "")
+                    .Equals("market_listing_price market_listing_price_with_fee")).InnerHtml);
+                Console.WriteLine();
             }
+
+            Console.WriteLine();
         }
     }
 }
