@@ -20,9 +20,14 @@ namespace SteamMarketAgent
         private static async void GetHtmlAsync()
         {
             CurrencyConverter currencyConverter = new CurrencyConverter();
-            var url = "https://steamcommunity.com/market/listings/730/Desert%20Eagle%20%7C%20Printstream%20%28Minimal%20Wear%29";
+            Console.Write("Enter link: ");
+            var urlString = Console.ReadLine();
+
+            var uri = new UriBuilder(urlString).Uri;
+
+            //var url = "https://steamcommunity.com/market/listings/730/Desert%20Eagle%20%7C%20Printstream%20%28Minimal%20Wear%29";
             var httpClient = new HttpClient();
-            var html =  await httpClient.GetStringAsync(url);
+            var html =  await httpClient.GetStringAsync(uri);
 
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
