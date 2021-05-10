@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -9,37 +10,38 @@ namespace SteamMarketAgent
     {
         private Double RUS = 73.75;
         private Double EUR = 0.82;
-        private double YEN = 108.59;
+        private Double YUAN = 6.41;
+        // RM & TL
 
         public double currencyConversion(string input)
         {
-            if (input.Contains("pуб"))
+            if (input.Contains("pуб."))
             {
-                input.Replace("pуб", "");
-                string replacement = Regex.Replace(input, @"\t|\n|\r|\p{уб}|\r|\r", "");
-                Console.WriteLine(replacement);
-                double stringAsNumber = Double.Parse(replacement.Trim());
-                double convertedResult = stringAsNumber / RUS;
+                string.Format(input);
+                string replacement = Regex.Replace(input, @"\t|\n|\r", "");
+                string noCurrency = Regex.Replace(replacement, @"pуб.", "");
+                double stringAsDouble = double.Parse(noCurrency, NumberStyles.Currency);
+                double convertedResult = stringAsDouble / RUS;
                 return convertedResult;
             }
             if (input.Contains("€"))
             {
-                input.Replace("€", "");
+                string.Format(input);
                 string replacement = Regex.Replace(input, @"\t|\n|\r", "");
-                double stringAsNumber = Double.Parse(replacement.Trim());
-                double convertedResult = stringAsNumber / EUR;
+                string noCurrency = Regex.Replace(replacement, @"€", "");
+                double stringAsDouble = double.Parse(noCurrency, NumberStyles.Currency);
+                double convertedResult = stringAsDouble / EUR;
                 return convertedResult;
             }
-
             if (input.Contains("¥"))
             {
-                input.Replace("¥", "");
+                string.Format(input);
                 string replacement = Regex.Replace(input, @"\t|\n|\r", "");
-                double stringAsNumber = Double.Parse(replacement.Trim());
-                double convertedResult = stringAsNumber / YEN;
+                string noCurrency = Regex.Replace(replacement, @"¥", "");
+                double stringAsDouble = double.Parse(noCurrency, NumberStyles.Currency);
+                double convertedResult = stringAsDouble / YUAN;
                 return convertedResult;
             }
-
             return 0;
         }
     }
