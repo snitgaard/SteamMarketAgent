@@ -15,49 +15,47 @@ namespace SteamMarketAgent
 
         public double currencyConversion(string input)
         {
+            string.Format(input);
             if (input.Contains("pуб."))
             {
-                string.Format(input);
-                string replacement = Regex.Replace(input, @"\t|\n|\r|\--", "");
-                string noCurrency = Regex.Replace(replacement, @"pуб.", "");
-                double parsed = double.Parse(noCurrency.Trim(),
+                string replacement = Regex.Replace(input, @"pуб.|\t|\n|\r|\--", "");
+                double parsed = double.Parse(replacement.Trim(),
                    NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
                    CultureInfo.CurrentCulture);
                 double convertedResult = parsed / RUS;
-                return convertedResult;
+                double result = Math.Round(convertedResult, 2);
+                return result;
             }
             if (input.Contains("€"))
             {
-                string.Format(input);
-                string replacement = Regex.Replace(input, @"\t|\n|\r|\--", "");
-                string noCurrency = Regex.Replace(replacement, @"€", "");
-                double parsed = double.Parse(noCurrency.Trim(),
+                string replacement = Regex.Replace(input, @"€|\t|\n|\r|\--", "");
+                double parsed = double.Parse(replacement.Trim(),
                     NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
                     CultureInfo.CurrentCulture);
                 double convertedResult = parsed / EUR;
-                return convertedResult;
+                double result = Math.Round(convertedResult, 2);
+                return result;
             }
             if (input.Contains("¥"))
             {
-                string.Format(input);
-                string replacement = Regex.Replace(input, @"\t|\n|\r|\--", "");
+                string replacement = Regex.Replace(input, @"¥|\t|\n|\r|\--", "");
                 string noComma = Regex.Replace(replacement, @"\.", ",");
-                string noCurrency = Regex.Replace(noComma, @"¥", "");
-                double parsed = double.Parse(noCurrency.Trim(),
+                double parsed = double.Parse(noComma.Trim(),
                     NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
                     CultureInfo.CurrentCulture);
-                double convertedResult = parsed / YUAN;
-                return convertedResult;
+                double rounded = Math.Round(parsed, MidpointRounding.AwayFromZero);
+                double convertedResult = rounded / YUAN;
+                double result = Math.Round(convertedResult, 2);
+                return result;
             }
             if (input.Contains("USD"))
             {
-                string.Format(input);
-                string replacement = Regex.Replace(input, @"\t|\n|\r|", "");
+                string replacement = Regex.Replace(input, @"\$|USD|\t|\n|\r|", "");
                 string noComma = Regex.Replace(replacement, @"\.", ",");
-                string noCurrency = Regex.Replace(noComma, @"\$|USD", "");
-                double parsed = double.Parse(noCurrency.Trim(),
+                double parsed = double.Parse(noComma.Trim(),
                     NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
                     CultureInfo.CurrentCulture);
+                double result = Math.Round(parsed, 2);
                 return parsed;
             }
             return 0;
