@@ -13,6 +13,8 @@ namespace SteamMarketAgent
     {
         static void Main(String[] args)
         {
+            EmailSender mailsender = new EmailSender();
+            mailsender.MailSender();
             GetHtmlAsync();
             Console.Read();
         }
@@ -22,8 +24,7 @@ namespace SteamMarketAgent
             CurrencyConverter currencyConverter = new CurrencyConverter();
             Console.Write("Enter link: ");
             var urlString = Console.ReadLine();
-            Console.WriteLine("Enter desired price ($): ");
-            var desiredPrice = Console.ReadLine();
+
             var uri = new UriBuilder(urlString).Uri;
 
             //var url = "https://steamcommunity.com/market/listings/730/Desert%20Eagle%20%7C%20Printstream%20%28Minimal%20Wear%29";
@@ -58,14 +59,7 @@ namespace SteamMarketAgent
                 };
                 skins.Add(skin);
                 Console.OutputEncoding = System.Text.Encoding.UTF8;
-                double convertedPrice = currencyConverter.currencyConversion(skin.Price);
-                System.Console.Out.WriteLine(skin.SkinModel + " - " + "$" + convertedPrice + " " + skin.Price);
-
-                if (convertedPrice <= Double.Parse(desiredPrice) && !convertedPrice.Equals(0))
-                {
-                    //Send email
-                    Console.WriteLine("Desired price!");
-                }
+                System.Console.Out.WriteLine(skin.SkinModel + " - " + currencyConverter.currencyConversion(skin.Price) + " " + skin.Price);
             }
         }
     }
