@@ -20,7 +20,7 @@ namespace SteamMarketAgent
             var emailTo = Console.ReadLine();
 
             SendEmail(client, emailTo);
-            Console.WriteLine("E-mail has been send");
+            Console.WriteLine("E-mail has been sent");
         }
         public void SendEmail(SmtpClient client, string to)
         {

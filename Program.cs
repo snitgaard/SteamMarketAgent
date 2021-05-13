@@ -63,12 +63,12 @@ namespace SteamMarketAgent
                 skins.Add(skin);
                 Console.OutputEncoding = System.Text.Encoding.UTF8;
                 double convertedPrice = currencyConverter.currencyConversion(skin.Price);
-                System.Console.Out.WriteLine(skin.SkinModel + " - " + "$" + convertedPrice + " " + skin.Price);
-
                 if (convertedPrice <= Double.Parse(desiredPrice) && !convertedPrice.Equals(0))
                 {
                     //Send email
                     Console.WriteLine("Desired price!");
+                    System.Console.Out.WriteLine(skin.SkinModel + " - " + "$" + convertedPrice + " " + skin.Price);
+
                 }
             }
         }
