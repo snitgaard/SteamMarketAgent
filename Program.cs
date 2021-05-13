@@ -13,8 +13,8 @@ namespace SteamMarketAgent
     {
         static void Main(String[] args)
         {
-            EmailSender mailsender = new EmailSender();
-            mailsender.MailSender();
+            //EmailSender mailsender = new EmailSender();
+            //mailsender.MailSender();
             GetHtmlAsync();
             Console.Read();
         }
