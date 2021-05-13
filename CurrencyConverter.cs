@@ -11,11 +11,126 @@ namespace SteamMarketAgent
         private Double RUS = 73.75;
         private Double EUR = 0.82;
         private Double YUAN = 6.41;
-        // RM & TL
+        private Double ZL = 3.76;
+        private Double GBP = 0.71;
+        private Double TL = 8.50;
+        private Double CDN = 1.21;
+        private Double BR = 5.30;
+        private Double UKH = 27.75;
+        private Double CHF = 0.91;
+        private Double AUD = 1.29;
+        private Double HKD = 7.77;
+        private Double RM = 4.13;
+        //Problems with: CDN, £, YUAN, CHF
+
 
         public double currencyConversion(string input)
         {
-            string.Format(input);
+
+            if (input.Contains("RM"))
+            {
+                string replacement = Regex.Replace(input, @"RM|\t|\n|\r|\--", "");
+                double parsed = double.Parse(replacement.Trim(),
+                    NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
+                    CultureInfo.CurrentCulture);
+                double convertedResult = parsed / RM;
+                double result = Math.Round(convertedResult, 2);
+                return result;
+            }
+
+            if (input.Contains("HK$"))
+            {
+                string replacement = Regex.Replace(input, @"HK\$|\t|\n|\r|\--", "");
+                double parsed = double.Parse(replacement.Trim(),
+                    NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
+                    CultureInfo.CurrentCulture);
+                double convertedResult = parsed / HKD;
+                double result = Math.Round(convertedResult, 2);
+                return result;
+            }
+            if (input.Contains("AUD"))
+            {
+                string replacement = Regex.Replace(input, @"A\$|\t|\n|\r|\--", "");
+                double parsed = double.Parse(replacement.Trim(),
+                    NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
+                    CultureInfo.CurrentCulture);
+                double convertedResult = parsed / AUD;
+                double result = Math.Round(convertedResult, 2);
+                return result;
+            }
+            if (input.Contains("CHF"))
+            {
+                string replacement = Regex.Replace(input, @"CHF|\t|\n|\r|\--", "");
+                double parsed = double.Parse(replacement.Trim(),
+                    NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
+                    CultureInfo.CurrentCulture);
+                double convertedResult = parsed / CHF;
+                double result = Math.Round(convertedResult, 2);
+                return result;
+            }
+            if (input.Contains("₴"))
+            {
+                string replacement = Regex.Replace(input, @"₴|\t|\n|\r|\--|\p{Zs}", "");
+                double parsed = double.Parse(replacement.Trim(),
+                    NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
+                    CultureInfo.CurrentCulture);
+                double convertedResult = parsed / UKH;
+                double result = Math.Round(convertedResult, 2);
+                return result;
+            }
+            if (input.Contains("R$"))
+            {
+                string replacement = Regex.Replace(input, @"R\$|\t|\n|\r|\--", "");
+                double parsed = double.Parse(replacement.Trim(),
+                    NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
+                    CultureInfo.CurrentCulture);
+                double convertedResult = parsed / BR;
+                double result = Math.Round(convertedResult, 2);
+                return result;
+            }
+            if (input.Contains("CDN$"))
+            {
+                string replacement = Regex.Replace(input, @"CDN\$|\t|\n|\r|\--", "");
+                double parsed = double.Parse(replacement.Trim(),
+                    NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
+                    CultureInfo.CurrentCulture);
+                double convertedResult = parsed / CDN;
+                double result = Math.Round(convertedResult, 2);
+                return result;
+            }
+            if (input.Contains("TL"))
+            {
+                string replacement = Regex.Replace(input, @"TL|\t|\n|\r|\--", "");
+                double parsed = double.Parse(replacement.Trim(),
+                    NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
+                    CultureInfo.CurrentCulture);
+                double convertedResult = parsed / TL;
+                double result = Math.Round(convertedResult, 2);
+                return result;
+            }
+
+            if (input.Contains("zł"))
+            {
+                string replacement = Regex.Replace(input, @"zł|\t|\n|\r|\--", "");
+                double parsed = double.Parse(replacement.Trim(),
+                    NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
+                    CultureInfo.CurrentCulture);
+                double convertedResult = parsed / ZL;
+                double result = Math.Round(convertedResult, 2);
+                return result;
+            }
+
+            if (input.Contains("£"))
+            {
+                string replacement = Regex.Replace(input, @"£|\t|\n|\r|\--", "");
+                double parsed = double.Parse(replacement.Trim(),
+                    NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
+                    CultureInfo.CurrentCulture);
+                double convertedResult = parsed / GBP;
+                double result = Math.Round(convertedResult, 2);
+                return result;
+            }
+
             if (input.Contains("pуб."))
             {
                 string replacement = Regex.Replace(input, @"pуб.|\t|\n|\r|\--", "");
@@ -29,7 +144,8 @@ namespace SteamMarketAgent
             if (input.Contains("€"))
             {
                 string replacement = Regex.Replace(input, @"€|\t|\n|\r|\--", "");
-                double parsed = double.Parse(replacement.Trim(),
+                string noComma = Regex.Replace(replacement, @"\.", ",");
+                double parsed = double.Parse(noComma.Trim(),
                     NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
                     CultureInfo.CurrentCulture);
                 double convertedResult = parsed / EUR;
@@ -39,7 +155,8 @@ namespace SteamMarketAgent
             if (input.Contains("¥"))
             {
                 string replacement = Regex.Replace(input, @"¥|\t|\n|\r|\--", "");
-                string noComma = Regex.Replace(replacement, @"\.", ",");
+                string noComma = Regex.Replace(replacement, @"\,", ".");
+                Math.Round(Convert.ToDecimal(noComma));
                 double parsed = double.Parse(noComma.Trim(),
                     NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
                     CultureInfo.CurrentCulture);
