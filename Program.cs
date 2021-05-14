@@ -11,25 +11,31 @@ namespace SteamMarketAgent
 {
     class Program
     {
+        public static string urlString;
+        public static string desiredPrice;
         static void Main(String[] args)
         {
             //EmailSender mailsender = new EmailSender();
             //mailsender.MailSender();
+            getUrlAndPrice();
             GetHtmlAsync();
             Console.Read();
         }
 
-        private static async void GetHtmlAsync()
+        public static void getUrlAndPrice()
         {
-
-            CurrencyConverter currencyConverter = new CurrencyConverter();
             Console.Write("Enter link: ");
-            var urlString = Console.ReadLine();
+            urlString = Console.ReadLine();
 
-            Console.WriteLine("Enter desired price ($): ");
-            var desiredPrice = Console.ReadLine();
+            Console.Write("Enter desired price ($): ");
+            desiredPrice = Console.ReadLine();
+        }
+
+        public static async void GetHtmlAsync()
+        {
+            CurrencyConverter currencyConverter = new CurrencyConverter();
+
             var uri = new UriBuilder(urlString).Uri;
-
             //var url = "https://steamcommunity.com/market/listings/730/Desert%20Eagle%20%7C%20Printstream%20%28Minimal%20Wear%29";
             var httpClient = new HttpClient();
             var html =  await httpClient.GetStringAsync(uri);
@@ -68,7 +74,10 @@ namespace SteamMarketAgent
                     //Send email
                     Console.WriteLine("Desired price!");
                     System.Console.Out.WriteLine(skin.SkinModel + " - " + "$" + convertedPrice + " " + skin.Price);
-
+                }
+                else
+                {
+                    Console.WriteLine("No skins with desired price found...");
                 }
             }
         }
