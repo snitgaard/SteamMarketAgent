@@ -111,7 +111,7 @@ namespace SteamMarketAgent
 
             if (input.Contains("zł"))
             {
-                string replacement = Regex.Replace(input, @"zł|\t|\n|\r|\--", "");
+                string replacement = Regex.Replace(input, @"zł|\t|\n|\r|--|\p{Zs}", "");
                 double parsed = double.Parse(replacement.Trim(),
                     NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands,
                     CultureInfo.CurrentCulture);
