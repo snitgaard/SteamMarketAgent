@@ -11,17 +11,35 @@ namespace SteamMarketAgent
 {
     class Program
     {
+        static System.Timers.Timer timer1 = new System.Timers.Timer();
         public static string urlString;
         public static string desiredPrice;
+
         static void Main(String[] args)
         {
+
             //EmailSender mailsender = new EmailSender();
             //mailsender.MailSender();
+            InitTimer();
             getUrlAndPrice();
             GetHtmlAsync();
             Console.Read();
         }
 
+        public static void InitTimer()
+        { 
+            timer1.Interval = 60000;//one minute
+            timer1.Elapsed += new System.Timers.ElapsedEventHandler(timer1_Tick);
+            timer1.Start();
+        }
+
+        static private void timer1_Tick(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Console.Clear();
+            GetHtmlAsync();
+            
+            
+        }
         public static void getUrlAndPrice()
         {
             Console.Write("Enter link: ");
