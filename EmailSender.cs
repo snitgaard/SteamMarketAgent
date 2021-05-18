@@ -16,10 +16,9 @@ namespace SteamMarketAgent
                 Credentials = new NetworkCredential("steammarketagent@gmail.com", "xcuyydbwfweztxti"),
                 EnableSsl = true
             };
-            Console.Write("receiver: ");
-            var emailTo = Console.ReadLine();
 
-            SendEmail(client, emailTo);
+
+            SendEmail(client, Program.emailTo);
             Console.WriteLine("E-mail has been sent");
         }
         public void SendEmail(SmtpClient client, string to)
@@ -29,7 +28,7 @@ namespace SteamMarketAgent
                 mail.To.Add(new MailAddress(to));
                 mail.From = new MailAddress("steammarketagent@gmail.com", "the cowboys");
                 mail.Subject = "you got skins";
-                mail.Body = "dit skin er under prisen du valgte";
+                mail.Body = "Dit valgte skin på linket:" + " " + Program.urlString + " " + "Til prisen" + " " + Program.desiredPrice + "usd" + " " + "eller Under!";
                 mail.IsBodyHtml = true;
 
                 client.Send(mail);

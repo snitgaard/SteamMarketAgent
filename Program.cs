@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 
@@ -14,12 +15,12 @@ namespace SteamMarketAgent
         static System.Timers.Timer timer1 = new System.Timers.Timer();
         public static string urlString;
         public static string desiredPrice;
+        static EmailSender mailsender = new EmailSender();
+        public static string emailTo;
 
         static void Main(String[] args)
         {
 
-            //EmailSender mailsender = new EmailSender();
-            //mailsender.MailSender();
             InitTimer();
             getUrlAndPrice();
             GetHtmlAsync();
@@ -28,7 +29,7 @@ namespace SteamMarketAgent
 
         public static void InitTimer()
         { 
-            timer1.Interval = 60000;//one minute
+            timer1.Interval = 10000;//one minute
             timer1.Elapsed += new System.Timers.ElapsedEventHandler(timer1_Tick);
             timer1.Start();
         }
@@ -37,9 +38,8 @@ namespace SteamMarketAgent
         {
             Console.Clear();
             GetHtmlAsync();
-            
-            
         }
+
         public static void getUrlAndPrice()
         {
             Console.Write("Enter link: ");
@@ -47,6 +47,10 @@ namespace SteamMarketAgent
 
             Console.Write("Enter desired price ($): ");
             desiredPrice = Console.ReadLine();
+
+            Console.Write("Email to be notified: ");
+            emailTo = Console.ReadLine();
+
         }
 
         public static async void GetHtmlAsync()
@@ -92,6 +96,8 @@ namespace SteamMarketAgent
                     //Send email
                     Console.WriteLine("Desired price!");
                     System.Console.Out.WriteLine(skin.SkinModel + " - " + "$" + convertedPrice + " " + skin.Price);
+                    mailsender.MailSender();
+                    Environment.Exit(0);
                 }
                 else
                 {
