@@ -20,24 +20,22 @@ namespace SteamMarketAgent
 
         static void Main(String[] args)
         {
-
-            InitTimer();
+            var buildManager = new MyBuildManager();
+            getEmail();
             getUrlAndPrice();
-            GetHtmlAsync();
+            buildManager.AddAgent("Agent1", 20, urlString, desiredPrice, emailTo);
+            getEmail();
+            getUrlAndPrice();
+
+            buildManager.AddAgent("Agent2", 10, urlString, desiredPrice, emailTo);
+            
+            //Console.Write("Press any key to stop agent...");
+            Console.ReadKey();
+
+            buildManager.RemoveAgent("Agent1");
+            
             Console.Read();
-        }
-
-        public static void InitTimer()
-        { 
-            timer1.Interval = 10000;//one minute
-            timer1.Elapsed += new System.Timers.ElapsedEventHandler(timer1_Tick);
-            timer1.Start();
-        }
-
-        static private void timer1_Tick(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            Console.Clear();
-            GetHtmlAsync();
+            Console.WriteLine("Agents canceled");
         }
 
         public static void getUrlAndPrice()
@@ -48,62 +46,14 @@ namespace SteamMarketAgent
             Console.Write("Enter desired price ($): ");
             desiredPrice = Console.ReadLine();
 
+            
+
+        }
+        public static void getEmail() 
+        {
             Console.Write("Email to be notified: ");
             emailTo = Console.ReadLine();
-
         }
 
-        public static async void GetHtmlAsync()
-        {
-            CurrencyConverter currencyConverter = new CurrencyConverter();
-
-            var uri = new UriBuilder(urlString).Uri;
-            //var url = "https://steamcommunity.com/market/listings/730/Desert%20Eagle%20%7C%20Printstream%20%28Minimal%20Wear%29";
-            var httpClient = new HttpClient();
-            var html =  await httpClient.GetStringAsync(uri);
-
-            var htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml(html);
-
-            var producthtml = htmlDocument.DocumentNode.Descendants("div")
-                .Where(node => node.GetAttributeValue("id","")
-                    .Equals("searchResultsRows")).ToList();
-
-            var productListItems = producthtml[0].Descendants("div")
-                .Where(node => node.GetAttributeValue("id", "")
-                    .Contains("listing")).ToList();
-
-            var skins = new List<Skin>();
-
-            //var productList = producthtml[0].Descendants()
-            foreach (var productListItem in productListItems)
-            {
-                var skin = new Skin
-                {
-                    Id = productListItem.GetAttributeValue("id", ""),
-                    SkinModel = productListItem
-                        .Descendants("span").FirstOrDefault(node => node.GetAttributeValue("class", "")
-                            .Equals("market_listing_item_name")).InnerHtml,
-                    Price = productListItem
-                        .Descendants("span").FirstOrDefault(node => node.GetAttributeValue("class", "")
-                            .Equals("market_listing_price market_listing_price_with_fee")).InnerHtml,
-                };
-                skins.Add(skin);
-                Console.OutputEncoding = System.Text.Encoding.UTF8;
-                double convertedPrice = currencyConverter.currencyConversion(skin.Price);
-                if (convertedPrice <= Double.Parse(desiredPrice) && !convertedPrice.Equals(0))
-                {
-                    //Send email
-                    Console.WriteLine("Desired price!");
-                    System.Console.Out.WriteLine(skin.SkinModel + " - " + "$" + convertedPrice + " " + skin.Price);
-                    mailsender.MailSender();
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    Console.WriteLine("No skins with desired price found...");
-                }
-            }
-        }
     }
 }
