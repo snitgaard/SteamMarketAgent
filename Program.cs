@@ -29,7 +29,7 @@ namespace SteamMarketAgent
 
         public static void InitTimer()
         { 
-            timer1.Interval = 10000;//one minute
+            timer1.Interval = 60000;//one minute
             timer1.Elapsed += new System.Timers.ElapsedEventHandler(timer1_Tick);
             timer1.Start();
         }
@@ -42,12 +42,14 @@ namespace SteamMarketAgent
 
         public static void getUrlAndPrice()
         {
+
             Console.Write("Enter link: ");
             urlString = Console.ReadLine();
-
+            
             Console.Write("Enter desired price ($): ");
             desiredPrice = Console.ReadLine();
 
+           
             Console.Write("Email to be notified: ");
             emailTo = Console.ReadLine();
 
