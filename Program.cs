@@ -13,29 +13,28 @@ namespace SteamMarketAgent
 {
     class Program
     {
-        static System.Timers.Timer timer1 = new System.Timers.Timer();
-        public static string urlString;
-        public static string desiredPrice;
-        static EmailSender mailsender = new EmailSender();
-        public static string emailTo;
+        public static string UrlString;
+        public static string DesiredPrice;
+        public static string EmailTo;
 
         static void Main(String[] args)
         {
             var buildManager = new MyBuildManager();
             getEmail();
             getUrlAndPrice();
-            buildManager.AddAgent("Agent1", 20, urlString, desiredPrice, emailTo);
+            buildManager.AddAgent("Agent1", 20, UrlString, DesiredPrice, EmailTo);
 
             Thread.Sleep(2000);
             getEmail();
             getUrlAndPrice();
-            buildManager.AddAgent("Agent2", 10, urlString, desiredPrice, emailTo);
+            buildManager.AddAgent("Agent2", 10, UrlString, DesiredPrice, EmailTo);
             
-            //Console.Write("Press any key to stop agent...");
+            Console.Write("Press any key to stop agent...");
             Console.ReadKey();
 
             buildManager.RemoveAgent("Agent1");
-            
+            buildManager.RemoveAgent("Agent2");
+
             Console.Read();
             Console.WriteLine("Agents canceled");
         }
@@ -43,18 +42,15 @@ namespace SteamMarketAgent
         public static void getUrlAndPrice()
         {
             Console.Write("Enter link: ");
-            urlString = Console.ReadLine();
+            UrlString = Console.ReadLine();
 
             Console.Write("Enter desired price ($): ");
-            desiredPrice = Console.ReadLine();
-
-            
-
+            DesiredPrice = Console.ReadLine();
         }
         public static void getEmail() 
         {
             Console.Write("Email to be notified: ");
-            emailTo = Console.ReadLine();
+            EmailTo = Console.ReadLine();
         }
 
     }

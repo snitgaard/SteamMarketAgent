@@ -28,7 +28,7 @@ namespace SteamMarketAgent
 
         private readonly Thread _t;
         private bool _done;
-        static EmailSender mailsender = new EmailSender();
+        static EmailSender MailSender = new EmailSender();
 
 
         public BuildAgent(string id, int seconds, string urlString, string desiredPrice, string emailTo)
@@ -56,7 +56,6 @@ namespace SteamMarketAgent
                 catch (ThreadInterruptedException)
                 {
                     Console.WriteLine("Thread interrupted");
-                    // just wake up
                 }
             }
             Console.WriteLine("Agent stopped");
@@ -67,9 +66,6 @@ namespace SteamMarketAgent
             try
             {
                 CurrencyConverter currencyConverter = new CurrencyConverter();
-
-
-                //var url = "https://steamcommunity.com/market/listings/730/Desert%20Eagle%20%7C%20Printstream%20%28Minimal%20Wear%29";
                 var httpClient = new HttpClient();
                 var html = await httpClient.GetStringAsync(UrlString);
 
@@ -107,7 +103,7 @@ namespace SteamMarketAgent
                         //Send email
                         Console.WriteLine("Desired price!");
                         System.Console.Out.WriteLine(skin.SkinModel + " - " + "$" + convertedPrice + " " + skin.Price);
-                        mailsender.MailSender();
+                        MailSender.MailSender();
                         Environment.Exit(0);
                     }
                     else

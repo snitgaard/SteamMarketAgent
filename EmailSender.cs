@@ -18,7 +18,7 @@ namespace SteamMarketAgent
             };
 
 
-            SendEmail(client, Program.emailTo);
+            SendEmail(client, Program.EmailTo);
             Console.WriteLine("E-mail has been sent");
         }
         public void SendEmail(SmtpClient client, string to)
@@ -28,7 +28,7 @@ namespace SteamMarketAgent
                 mail.To.Add(new MailAddress(to));
                 mail.From = new MailAddress("steammarketagent@gmail.com", "the cowboys");
                 mail.Subject = "you got skins";
-                mail.Body = "Dit valgte skin på linket:" + " " + Program.urlString + " " + "Til prisen" + " " + Program.desiredPrice + "usd" + " " + "eller Under!";
+                mail.Body = "Dit valgte skin på linket:" + " " + Program.UrlString + " " + "Til prisen" + " " + Program.DesiredPrice + "usd" + " " + "eller Under!";
                 mail.IsBodyHtml = true;
 
                 client.Send(mail);
