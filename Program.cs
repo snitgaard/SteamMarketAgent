@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 
@@ -24,9 +25,10 @@ namespace SteamMarketAgent
             getEmail();
             getUrlAndPrice();
             buildManager.AddAgent("Agent1", 20, urlString, desiredPrice, emailTo);
+
+            Thread.Sleep(2000);
             getEmail();
             getUrlAndPrice();
-
             buildManager.AddAgent("Agent2", 10, urlString, desiredPrice, emailTo);
             
             //Console.Write("Press any key to stop agent...");
