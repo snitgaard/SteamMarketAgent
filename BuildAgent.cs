@@ -51,7 +51,7 @@ namespace SteamMarketAgent
                 {
                     GetHtmlAsync();
 
-                    Thread.Sleep(TimeIntervalSeconds * 10000);
+                    Thread.Sleep(TimeIntervalSeconds * 100000);
                 }
                 catch (ThreadInterruptedException)
                 {
