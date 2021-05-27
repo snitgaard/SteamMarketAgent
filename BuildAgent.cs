@@ -81,8 +81,6 @@ namespace SteamMarketAgent
                         .Contains("listing")).ToList();
 
                 var skins = new List<Skin>();
-
-                //var productList = producthtml[0].Descendants()
                 foreach (var productListItem in productListItems)
                 {
                     var skin = new Skin
@@ -100,11 +98,10 @@ namespace SteamMarketAgent
                     double convertedPrice = currencyConverter.currencyConversion(skin.Price);
                     if (convertedPrice <= Double.Parse(DesiredPrice) && !convertedPrice.Equals(0))
                     {
-                        //Send email
                         Console.WriteLine("Desired price!");
                         System.Console.Out.WriteLine(skin.SkinModel + " - " + "$" + convertedPrice + " " + skin.Price);
                         MailSender.MailSender();
-                        Environment.Exit(0);
+                        return;
                     }
                     else
                     {
@@ -112,8 +109,9 @@ namespace SteamMarketAgent
                     }
                 }
             }
-            catch 
+            catch (Exception e)
             {
+                Console.WriteLine("Error", e);
             }
         }
 

@@ -24,7 +24,7 @@ namespace SteamMarketAgent
             getUrlAndPrice();
             buildManager.AddAgent("Agent1", 20, UrlString, DesiredPrice, EmailTo);
 
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             getEmail();
             getUrlAndPrice();
             buildManager.AddAgent("Agent2", 10, UrlString, DesiredPrice, EmailTo);
