@@ -27,8 +27,10 @@ namespace SteamMarketAgent
             {
                 mail.To.Add(new MailAddress(to));
                 mail.From = new MailAddress("steammarketagent@gmail.com", "the cowboys");
-                mail.Subject = "you got skins";
-                mail.Body = "Dit valgte skin på linket:" + " " + Program.UrlString + " " + "Til prisen" + " " + Program.DesiredPrice + "usd" + " " + "eller Under!";
+                mail.Subject = "You got skins!";
+                mail.Body = "Dit valgte skin:" + " " + Program.UrlString + 
+                            "<br /> er blevet fundet til følgende pris:" + " " + "$" + Program.DesiredPrice + " " + "eller under." +
+                    "<br /> - The Cowboys";
                 mail.IsBodyHtml = true;
 
                 client.Send(mail);

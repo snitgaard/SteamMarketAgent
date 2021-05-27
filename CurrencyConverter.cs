@@ -21,7 +21,6 @@ namespace SteamMarketAgent
         private Double AUD = 1.29;
         private Double HKD = 7.77;
         private Double RM = 4.13;
-        //Problems with: CDN, £, YUAN, CHF
 
         public double currencyConversion(string input)
         {
