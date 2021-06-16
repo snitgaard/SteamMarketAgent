@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
-using System.Threading.Tasks;
-using HtmlAgilityPack;
 
 namespace SteamMarketAgent
 {
@@ -25,6 +17,7 @@ namespace SteamMarketAgent
             buildManager.AddAgent("Agent1", 20, UrlString, DesiredPrice, EmailTo);
 
             Thread.Sleep(5000);
+
             getEmail();
             getUrlAndPrice();
             buildManager.AddAgent("Agent2", 10, UrlString, DesiredPrice, EmailTo);

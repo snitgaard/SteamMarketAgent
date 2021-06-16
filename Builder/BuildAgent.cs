@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
-using System.IO;
 using System.Net.Http;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using HtmlAgilityPack;
 
 namespace SteamMarketAgent
@@ -18,18 +10,14 @@ namespace SteamMarketAgent
     class BuildAgent
     {
         public string Id { get; private set; }
-
         public int TimeIntervalSeconds { get; set; }
-
         public string UrlString { get; set; }
         public string DesiredPrice { get; set; }
-
         public string EmailTo { get; set; }
 
         private readonly Thread _t;
         private bool _done;
         static EmailSender MailSender = new EmailSender();
-
 
         public BuildAgent(string id, int seconds, string urlString, string desiredPrice, string emailTo)
         {
@@ -51,7 +39,7 @@ namespace SteamMarketAgent
                 {
                     GetHtmlAsync();
 
-                    Thread.Sleep(TimeIntervalSeconds * 100000);
+                    Thread.Sleep(TimeIntervalSeconds * 1000);
                 }
                 catch (ThreadInterruptedException)
                 {
@@ -95,12 +83,15 @@ namespace SteamMarketAgent
                     };
                     skins.Add(skin);
                     Console.OutputEncoding = System.Text.Encoding.UTF8;
+                  
                     double convertedPrice = currencyConverter.currencyConversion(skin.Price);
+
                     if (convertedPrice <= Double.Parse(DesiredPrice) && !convertedPrice.Equals(0))
                     {
                         Console.WriteLine("Desired price!");
                         System.Console.Out.WriteLine(skin.SkinModel + " - " + "$" + convertedPrice + " " + skin.Price);
                         MailSender.MailSender();
+                        Cancel();
                         return;
                     }
                     else
@@ -114,7 +105,6 @@ namespace SteamMarketAgent
                 Console.WriteLine("Error", e);
             }
         }
-
         public void Cancel()
         {
             _done = true;
