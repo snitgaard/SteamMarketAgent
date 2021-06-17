@@ -19,7 +19,8 @@ namespace SteamMarketAgent
         private bool _done;
         static EmailSender MailSender = new EmailSender();
 
-        public BuildAgent(string id, int seconds, string urlString, string desiredPrice, string emailTo)
+        public BuildAgent(string id, int seconds, 
+            string urlString, string desiredPrice, string emailTo)
         {
             Id = id;
             TimeIntervalSeconds = seconds;
@@ -46,7 +47,7 @@ namespace SteamMarketAgent
                     Console.WriteLine("Thread interrupted");
                 }
             }
-            Console.WriteLine("Agent stopped");
+            Console.WriteLine(Id + " stopped");
         }
 
         public async void GetHtmlAsync()
@@ -75,11 +76,14 @@ namespace SteamMarketAgent
                     {
                         Id = productListItem.GetAttributeValue("id", ""),
                         SkinModel = productListItem
-                            .Descendants("span").FirstOrDefault(node => node.GetAttributeValue("class", "")
+                            .Descendants("span").FirstOrDefault(node =>
+                                node.GetAttributeValue("class", "")
                                 .Equals("market_listing_item_name")).InnerHtml,
                         Price = productListItem
-                            .Descendants("span").FirstOrDefault(node => node.GetAttributeValue("class", "")
-                                .Equals("market_listing_price market_listing_price_with_fee")).InnerHtml,
+                            .Descendants("span").FirstOrDefault(node =>
+                                node.GetAttributeValue("class", "")
+                                .Equals("market_listing_price market_listing_price_with_fee"))
+                            .InnerHtml,
                     };
                     skins.Add(skin);
                     Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -89,7 +93,8 @@ namespace SteamMarketAgent
                     if (convertedPrice <= Double.Parse(DesiredPrice) && !convertedPrice.Equals(0))
                     {
                         Console.WriteLine("Desired price!");
-                        System.Console.Out.WriteLine(skin.SkinModel + " - " + "$" + convertedPrice + " " + skin.Price);
+                        System.Console.Out.WriteLine(skin.SkinModel + " - " + "$" 
+                                                     + convertedPrice + " " + skin.Price);
                         MailSender.MailSender();
                         Cancel();
                         return;

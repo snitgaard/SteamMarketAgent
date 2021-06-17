@@ -22,6 +22,7 @@ namespace SteamMarketAgent
             getUrlAndPrice();
             buildManager.AddAgent("Agent2", 10, UrlString, DesiredPrice, EmailTo);
             
+
             Console.Write("Press any key to stop agent...");
             Console.ReadKey();
 

@@ -7,13 +7,15 @@ namespace SteamMarketAgent
     {
         private Dictionary<string, BuildAgent> agents = new Dictionary<string, BuildAgent>();
 
-        public void AddAgent(string agentId, int intervalSeconds, string urlString, string desiredPrice, string emailTo)
+        public void AddAgent(string agentId, int intervalSeconds, 
+            string urlString, string desiredPrice, string emailTo)
         {
             if (agents.ContainsKey(agentId))
             {
                 throw new ArgumentException("Agent id already in use [{0}]", agentId);
             }
-            agents[agentId] = new BuildAgent(agentId, intervalSeconds, urlString,  desiredPrice, emailTo);
+            agents[agentId] = new BuildAgent(agentId, intervalSeconds, 
+                urlString,  desiredPrice, emailTo);
         }
 
         public void RemoveAgent(string agentId)
